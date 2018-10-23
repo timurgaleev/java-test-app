@@ -19,7 +19,19 @@ node{
         }
         sh 'docker push timurgaleev/provectus-test:0.0.1'
     }
-    stage('Run Container on Dev Server'){
+    
+	stage('Remove Previous Container'){
+		try{
+			def dockerRm = 'docker rm -f provectus-test-app'
+			sshagent(['docker-dev']) {
+				sh "ssh -o StrictHostKeyChecking=no ec2-user@35.158.125.213 ${dockerRm}"
+		}
+	}catch(error){
+		//  do nothing if there is an exception
+	}
+ }
+	
+	stage('Run Container on Dev Server'){
         def dockerRun = 'docker run -p 8080:8080 -d --name provectus-test-app timurgaleev/provectus-test:0.0.1'
         sshagent(['dev-server']) {
        sh "ssh -o StrictHostKeyChecking=no ec2-user@35.158.125.213 ${dockerRun}"
