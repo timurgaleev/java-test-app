@@ -5,7 +5,8 @@ node{
     
     stage('MVN Package'){
         def mvnHome = tool name: 'maven-3', type: 'maven'
-        sh "${mvnHome}/bin/mvn clean package"
+        def mvnCMD = "${mvnHome}/bin/mvn"
+        sh "${mvnCMD} clean package"
     }
     
     stage('Build Docker Image'){
@@ -18,4 +19,10 @@ node{
         }
         sh 'docker push timurgaleev/provectus-test:0.0.1'
     }
+    stage('Run Container on Dev Server'){
+        def dockerRun = 'docker run -p 8080:8080 -d --name provectus-test-app timurgaleev/provectus-test:0.0.1'
+        sshagent(['dev-server']) {
+       sh "ssh -o StrictHostKeyChecking=no ec2-user@35.158.125.213 ${dockerRun}"
+     }
+   }
 }
