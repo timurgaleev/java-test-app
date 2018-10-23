@@ -16,6 +16,6 @@ node{
         withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
             sh "docker login -u timurgaleev -p ${dockerHubPwd}"
         }
-        sh 'docker push timurgaleev/myweb:0.0.2'
+        sh 'docker push timurgaleev/provectus-test:0.0.1'
     }
 }
