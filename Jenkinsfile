@@ -1,6 +1,6 @@
 node{
     stage('SCM checkout'){
-                git credentialsId: 'dc6d8db2-f75e-4a78-bbad-4f55e0503c7a', url: 'https://github.com/timurgaleev/java-test-app'
+              checkout scm
     }
    stage('MVN Package'){
     def mvnHome = tool name: 'maven-3', type: 'maven'
