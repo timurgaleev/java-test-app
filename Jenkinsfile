@@ -5,7 +5,8 @@ node{
     
     stage('MVN Package'){
         def mvnHome = tool name: 'maven-3', type: 'maven'
-        sh "${mvnHome}/bin/mvn clean package"
+        def mvnCMD = "${mvnHome}/bin/mvn"
+        sh "${mvnCMD} clean package"
     }
     
     stage('Build Docker Image'){
@@ -16,6 +17,6 @@ node{
         withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
             sh "docker login -u timurgaleev -p ${dockerHubPwd}"
         }
-        sh 'docker push timurgaleev/provectus-test:0.0.1'
+        sh 'docker push kammana/myweb:0.0.2'
     }
 }
