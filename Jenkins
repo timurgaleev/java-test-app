@@ -7,6 +7,6 @@ node{
     sh "${mvnHome}/bin/mvn clean package"
   }
     stage('Build Docker Image'){
-    sh 'docker build -t timurtest/my-app:0.0.1 .'
+    sh 'docker build -t timurgaleev/provectus-test:0.0.1 .'
   }
 }
