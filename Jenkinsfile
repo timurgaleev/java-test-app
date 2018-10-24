@@ -19,6 +19,18 @@ node{
         }
         sh 'docker push timurgaleev/provectus-test:0.0.1'
     }
+		
+	stage('Remove Previous Container'){
+		try{
+			def dockerRm = 'docker stop provectus-test'
+			def dockerRm = 'docker rm -f provectus-test'
+			sshagent(['docker-dev']) {
+				sh "ssh -o StrictHostKeyChecking=no ec2-user@35.158.125.213 ${dockerRm}"
+            }
+        }catch(error){
+		//  do nothing if there is an exception
+        }
+    }
 	
 	stage('Run Container on Dev Server'){
         def dockerRun = 'docker run -p 8080:8080 -d --name provectus-test --link mysql-provectus:mysql timurgaleev/provectus-test:0.0.1'
