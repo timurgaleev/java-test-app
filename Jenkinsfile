@@ -10,14 +10,14 @@ node{
     }
     
     stage('Build Docker Image'){
-        sh 'docker build -t timurgaleev/provectus-test:0.0.2 .'
+        sh 'docker build -t timurgaleev/provectus-test:0.0.3 .'
     }
     
     stage('Push to Docker Hub'){
         withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
             sh "docker login -u timurgaleev -p ${dockerHubPwd}"
         }
-        sh 'docker push timurgaleev/provectus-test:0.0.2'
+        sh 'docker push timurgaleev/provectus-test:0.0.3'
     }	
 	stage('Remove Previous Container'){
 		try{
@@ -31,7 +31,7 @@ node{
     }
 	
 	stage('Run Container on Dev Server'){
-        def dockerRun = 'docker run -p 8080:8080 -d --name provectus-test --link mysql-provectus:mysql timurgaleev/provectus-test:0.0.2'
+        def dockerRun = 'docker run -p 8080:8080 -d --name provectus-test --link mysql-provectus:mysql timurgaleev/provectus-test:0.0.3'
         sshagent(['dev-server']) {
        sh "ssh -o StrictHostKeyChecking=no ec2-user@35.158.125.213 ${dockerRun}"
      }
