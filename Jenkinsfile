@@ -32,7 +32,7 @@ node{
     }
 	
 	stage('Run Container on Dev Server'){
-        def dockerRun = 'docker run -p 8080:8080 -d --name provectus-test-app timurgaleev/provectus-test:0.0.1'
+        def dockerRun = 'docker run -p 8080:8080 -d --name provectus-test timurgaleev/provectus-test:0.0.1'
         sshagent(['dev-server']) {
        sh "ssh -o StrictHostKeyChecking=no ec2-user@35.158.125.213 ${dockerRun}"
      }
