@@ -33,7 +33,7 @@ node{
     }
 	
 	stage('Run Container on Dev Server'){
-        def dockerRunMySQL = 'docker run --name mysql-provectus -e MYSQL_ROOT_PASSWORD=143625 -e MYSQL_DATABASE=rpovectus -d mysql:5.6'
+        def dockerRunMySQL = 'docker run --name mysql-provectus -e MYSQL_ROOT_PASSWORD=143625 -e MYSQL_DATABASE=provectus -d mysql:5.6'
 	def dockerRunApp = 'docker run -p 8080:8080 -d --name provectus-test --link mysql-provectus:mysql timurgaleev/provectus-test:0.0.3'
         sshagent(['dev-server']) {
        	sh "ssh -o StrictHostKeyChecking=no ec2-user@35.158.125.213 ${dockerRunMySQL}"
