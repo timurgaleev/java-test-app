@@ -23,7 +23,7 @@ node{
 		try{
 			def dockerRm = 'docker stop provectus-test'
 			sshagent(['docker-dev']) {
-				sh "ssh -o StrictHostKeyChecking=no ec2-user@35.158.125.213 ${dockerRm}"
+				sh "ssh -o StrictHostKeyChecking=no ec2-user@35.158.125.213 ${dockerStop}"
             }
 		sh = "docker stop provectus-test"
         }catch(error){
