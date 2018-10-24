@@ -19,11 +19,13 @@ node{
         }
         sh 'docker push timurgaleev/provectus-test:0.0.3'
     }	
-	stage('Remove Previous Container'){
+	stage('Remove Previous Containers'){
 		try{
 			def dockerRm = 'docker rm -f provectus-test'
+			def dockerRmMYSQL = 'docker rm -f mysql-provectus'
 			sshagent(['dev-server']) {
 			sh "ssh -o StrictHostKeyChecking=no ec2-user@35.158.125.213 ${dockerRm}"
+			sh "ssh -o StrictHostKeyChecking=no ec2-user@35.158.125.213 ${dockerRmMYSQL}"
             }
         }catch(error){
 		//  do nothing if there is an exception
@@ -31,9 +33,11 @@ node{
     }
 	
 	stage('Run Container on Dev Server'){
-        def dockerRun = 'docker run -p 8080:8080 -d --name provectus-test --link mysql-provectus:mysql timurgaleev/provectus-test:0.0.3'
+        def dockerRunMySQL = 'docker run --name mysql-provectus -e MYSQL_ROOT_PASSWORD=143625 -e MYSQL_DATABASE=rpovectus -d mysql:5.6'
+	def dockerRunApp = 'docker run -p 8080:8080 -d --name provectus-test --link mysql-provectus:mysql timurgaleev/provectus-test:0.0.3'
         sshagent(['dev-server']) {
-       sh "ssh -o StrictHostKeyChecking=no ec2-user@35.158.125.213 ${dockerRun}"
+       	sh "ssh -o StrictHostKeyChecking=no ec2-user@35.158.125.213 ${dockerRunMySQL}"
+	sh "ssh -o StrictHostKeyChecking=no ec2-user@35.158.125.213 ${dockerRunApp}"
      }
    }
 }
