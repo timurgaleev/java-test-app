@@ -25,7 +25,7 @@ node{
 			sshagent(['docker-dev']) {
 				sh "ssh -o StrictHostKeyChecking=no ec2-user@35.158.125.213 ${dockerStop}"
             }
-		sh = "docker rm -f provectus-test"
+		sh "docker rm -f provectus-test"
         }catch(error){
 		//  do nothing if there is an exception
         }
