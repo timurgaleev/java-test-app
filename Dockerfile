@@ -1,2 +1,5 @@
-FROM tomcat:8
-COPY target/*.jar /usr/local/tomcat/webapps/
+FROM java:8
+VOLUME /tmp
+ADD *.jar 
+RUN bash -c 'touch /*.jar'
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/*.jar"]
