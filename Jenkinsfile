@@ -22,10 +22,10 @@ node{
 	stage('Remove Previous Container'){
 		try{
 			def dockerRm = 'docker stop provectus-test'
-			def dockerRm = 'docker rm -f provectus-test'
 			sshagent(['docker-dev']) {
 				sh "ssh -o StrictHostKeyChecking=no ec2-user@35.158.125.213 ${dockerRm}"
             }
+		sh = "docker stop provectus-test"
         }catch(error){
 		//  do nothing if there is an exception
         }
