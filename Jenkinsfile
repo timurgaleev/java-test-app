@@ -18,8 +18,7 @@ node{
             sh "docker login -u timurgaleev -p ${dockerHubPwd}"
         }
         sh 'docker push timurgaleev/provectus-test:0.0.1'
-    }
-		
+    }	
 	stage('Remove Previous Container'){
 		try{
 			def dockerRm = 'docker stop provectus-test'
