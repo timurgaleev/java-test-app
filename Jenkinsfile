@@ -40,4 +40,8 @@ node{
 	sh "ssh -o StrictHostKeyChecking=no ec2-user@35.158.125.213 ${dockerRunApp}"
      }
    }
+	stage('Email Notification'){
+     	 mail bcc: '', body: 'Delivery is done',
+	cc: '', from: '', replyTo: '', subject: 'Jenkins job', to: 'aksissound@gmail.com'
+   }
 }
